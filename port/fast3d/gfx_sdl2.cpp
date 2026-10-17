@@ -27,6 +27,7 @@ extern "C" int gfx_sdl_vulkan_headless(void);
 // OTRTODO: These are redundant. Info can be queried from SDL.
 static int window_width = DESIRED_SCREEN_WIDTH;
 static int window_height = DESIRED_SCREEN_HEIGHT;
+int gfx_display_index = -1;
 static uint32_t fullscreen_flag = SDL_WINDOW_FULLSCREEN_DESKTOP;
 static bool fullscreen_state;
 static bool maximized_state;
@@ -155,6 +156,18 @@ static void gfx_sdl_init(const struct GfxWindowInitSettings *set) {
         SDL_GetCurrentDisplayMode(0, &mode);
         posX = mode.w / 2 - window_width / 2;
         posY = mode.h / 2 - window_height / 2;
+    }
+
+    // Psymatic Arcade: Video.Display picks the monitor, so the game can open (and go
+    // fullscreen) on an output other than the main display without dragging the window.
+    if (gfx_display_index >= 0) {
+        if (gfx_display_index < SDL_GetNumVideoDisplays()) {
+            posX = SDL_WINDOWPOS_CENTERED_DISPLAY(gfx_display_index);
+            posY = SDL_WINDOWPOS_CENTERED_DISPLAY(gfx_display_index);
+        } else {
+            fprintf(stderr, "Video.Display=%d but only %d display(s); using the default\n",
+                    gfx_display_index, SDL_GetNumVideoDisplays());
+        }
     }
 
     if (set->fullscreen_is_exclusive) {

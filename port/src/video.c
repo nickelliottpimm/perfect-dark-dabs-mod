@@ -53,6 +53,7 @@ static s32 vidFullscreenExclusive = DEFAULT_VID_FULLSCREEN_EXCLUSIVE;
 static s32 vidMaximize = false;
 static s32 vidCenter = false;
 static s32 vidStretch43 = false;
+static s32 vidDisplay = -1;
 static s32 vidAllowHiDpi = false;
 // What the window was made with. HiDPI and framebuffer effects are settled
 // when the window and renderer are made, so the menu shows a change to either
@@ -161,6 +162,7 @@ s32 videoInit(void)
 	vidAllowHiDpiActive = vidAllowHiDpi;
 	gfx_detail_textures_enabled = (bool)texDetail;
 	gfx_stretch43 = (bool)vidStretch43;
+	gfx_display_index = vidDisplay;
 	gfx_gpu_vertices = vidGpuVertices && !sysArgCheck("--cpu-vertices");
 	gfx_clamped_edge_mode = texClampedEdge;
 	if (vidTaa) {
@@ -1237,6 +1239,7 @@ PD_CONSTRUCTOR static void videoConfigInit(void)
 	configRegisterInt("Video.ExclusiveFullscreen", &vidFullscreenExclusive, 0, 1);
 	configRegisterInt("Video.CenterWindow", &vidCenter, 0, 1);
 	configRegisterInt("Video.Stretch43", &vidStretch43, 0, 1);
+	configRegisterInt("Video.Display", &vidDisplay, -1, 15);
 	configRegisterInt("Video.AllowHiDpi", &vidAllowHiDpi, 0, 1);
 	configRegisterInt("Video.VSync", &vidVsync, -1, 10);
 	configRegisterInt("Video.FramebufferEffects", &vidFramebuffers, 0, 1);
