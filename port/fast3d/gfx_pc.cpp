@@ -391,6 +391,7 @@ struct XYWidthHeight gfx_current_native_viewport;
 float gfx_current_native_aspect = 4.f / 3.f;
 bool gfx_framebuffers_enabled = true;
 bool gfx_detail_textures_enabled = true;
+bool gfx_stretch43 = false;
 bool gfx_clean_text_outlines = true;
 int gfx_clamped_edge_mode = CLAMPED_EDGE_STRETCH;
 int gfx_texture_enhance_scale = 1;
@@ -8575,6 +8576,12 @@ extern "C" void gfx_start_frame(void) {
     }
 
     gfx_current_window_dimensions.aspect_ratio = (float)gfx_current_window_dimensions.width / gfx_current_window_dimensions.height;
+
+    if (gfx_stretch43) {
+        // Psymatic Arcade: the game lays out a 4:3 frame and RATIO_X/RATIO_Y stretch it
+        // across the real window, so a 16:9 output carries the 4:3 image stretched 4/3.
+        gfx_current_window_dimensions.aspect_ratio = 4.f / 3.f;
+    }
 
     gfx_current_dimensions = gfx_current_window_dimensions;
 

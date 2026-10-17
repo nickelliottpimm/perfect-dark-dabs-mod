@@ -37,6 +37,7 @@ extern struct XYWidthHeight gfx_current_native_viewport; // The internal/native 
 extern float gfx_current_native_aspect; // The aspect ratio of the above mode
 extern bool gfx_framebuffers_enabled;
 extern bool gfx_detail_textures_enabled;
+extern bool gfx_stretch43; // report a 4:3 aspect while drawing to the whole window
 // Video.GpuVertices: meshes under G_MESH_EXT posed and transformed on the GPU (gfxmesh.h)
 extern bool gfx_gpu_vertices;
 extern bool gfx_clean_text_outlines;
